@@ -15,6 +15,7 @@ import medicineRoutes from './routes/medicine.routes';
 import verificationRoutes from './routes/verification.routes';
 import analyticsRoutes from './routes/analytics.routes';
 import userRoutes from './routes/user.routes';
+import qrRoutes from './qr/qr.routes';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -41,6 +42,7 @@ app.use('/api/medicines', medicineRoutes);
 app.use('/api/verify', verificationRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/qr', qrRoutes);
 
 // Error handling
 app.use(errorHandler);
