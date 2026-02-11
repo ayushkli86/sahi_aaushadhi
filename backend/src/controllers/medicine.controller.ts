@@ -98,9 +98,35 @@ class MedicineController {
         throw new AppError('Medicine not found', 404);
       }
 
-      const qrCode = await qrService.generateQRCode(productId, medicine);
+      // STEP 1: Create QR payload with nonce
+      const payload = await qrService.createQRPayload(productId);
 
-      res.json({ qrCode });
+      // STEP 2: Store QR hash in database (for one-time use verification)
+      await databaseService.storeQRRecord(
+        payload.qrHash,
+        productId,
+        payload.expiresAt
+      );
+
+      // STEP 3: Register QR hash on blockchain
+      try {
+        await blockchainService.registerQRHash(payload.qrHash, productId);
+      } catch (error) {
+        logger.warn('Blockchain QR registration failed', error);
+        // Continue even if blockchain fails
+      }
+
+      // STEP 4: Generate QR image
+      const qrImage = await qrService.generateQRImage(payload);
+
+      logger.info(`QR generated for ${productId}, hash: ${payload.qrHash}`);
+
+      res.json({
+        qrCode: qrImage,
+        qrHash: payload.qrHash,
+        expiresAt: payload.expiresAt,
+        productId: payload.productId
+      });
     } catch (error) {
       next(error);
     }

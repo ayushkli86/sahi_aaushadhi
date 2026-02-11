@@ -1,91 +1,56 @@
 import { Request, Response, NextFunction } from 'express';
+import verificationService from '../services/verification.service';
 import databaseService from '../services/database.service';
-import blockchainService from '../services/blockchain.service';
-import qrService from '../services/qr.service';
-import { AppError } from '../utils/AppError';
 import logger from '../utils/logger';
 
+/**
+ * VERIFICATION CONTROLLER
+ * Responsibility: HTTP layer only
+ * - Receive request
+ * - Extract data
+ * - Call service
+ * - Return response
+ * NO business logic here!
+ */
 class VerificationController {
+  /**
+   * Verify medicine by product ID
+   * POST /api/verify
+   */
   async verifyMedicine(req: Request, res: Response, next: NextFunction) {
     try {
       const { productId } = req.body;
+      const ipAddress = req.ip;
 
-      // Verify on blockchain
-      const blockchainData = await blockchainService.verifyMedicine(productId);
+      const result = await verificationService.verifyMedicine(productId, ipAddress);
 
-      // Get from database
-      const dbData = await databaseService.getMedicineByProductId(productId);
-
-      const isValid = blockchainData.exists && dbData !== null;
-      const isExpired = dbData && new Date(dbData.expiry_date) < new Date();
-
-      // Log verification
-      await databaseService.logVerification({
-        product_id: productId,
-        is_valid: isValid,
-        verified_at: new Date().toISOString(),
-        ip_address: req.ip
-      });
-
-      logger.info(`Verification attempt for ${productId}: ${isValid ? 'valid' : 'invalid'}`);
-
-      res.json({
-        isValid,
-        isExpired,
-        medicine: isValid ? {
-          ...dbData,
-          blockchain: blockchainData
-        } : null,
-        message: isValid 
-          ? (isExpired ? 'Medicine is expired' : 'Medicine is authentic')
-          : 'Medicine not found or counterfeit'
-      });
+      res.json(result);
     } catch (error) {
       next(error);
     }
   }
 
+  /**
+   * Verify medicine by scanning QR code
+   * POST /api/verify/qr
+   */
   async verifyQRCode(req: Request, res: Response, next: NextFunction) {
     try {
       const { qrData } = req.body;
+      const ipAddress = req.ip;
 
-      const parsed = qrService.parseQRCode(qrData);
-      const { productId } = parsed;
+      const result = await verificationService.verifyByQR(qrData, ipAddress);
 
-      // Verify on blockchain
-      const blockchainData = await blockchainService.verifyMedicine(productId);
-
-      // Get from database
-      const dbData = await databaseService.getMedicineByProductId(productId);
-
-      const isValid = blockchainData.exists && dbData !== null;
-      const isExpired = dbData && new Date(dbData.expiry_date) < new Date();
-
-      // Log verification
-      await databaseService.logVerification({
-        product_id: productId,
-        is_valid: isValid,
-        verified_at: new Date().toISOString(),
-        ip_address: req.ip,
-        method: 'qr_scan'
-      });
-
-      res.json({
-        isValid,
-        isExpired,
-        medicine: isValid ? {
-          ...dbData,
-          blockchain: blockchainData
-        } : null,
-        message: isValid 
-          ? (isExpired ? 'Medicine is expired' : 'Medicine is authentic')
-          : 'Invalid QR code or counterfeit medicine'
-      });
+      res.json(result);
     } catch (error) {
       next(error);
     }
   }
 
+  /**
+   * Get verification statistics
+   * GET /api/verify/logs
+   */
   async getVerificationLogs(req: Request, res: Response, next: NextFunction) {
     try {
       const stats = await databaseService.getVerificationStats();

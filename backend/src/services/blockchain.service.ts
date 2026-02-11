@@ -103,6 +103,51 @@ class BlockchainService {
       throw new AppError('Product not found', 404);
     }
   }
+
+  /**
+   * Register QR hash on blockchain
+   * This creates tamper-proof record of QR code
+   */
+  async registerQRHash(qrHash: string, productId: string) {
+    if (!this.contract) {
+      throw new AppError('Contract not initialized', 500);
+    }
+
+    try {
+      // Convert hash to bytes32 format for Solidity
+      const hashBytes = '0x' + qrHash;
+      
+      const tx = await this.contract.registerQR(hashBytes, productId);
+      const receipt = await tx.wait();
+      
+      logger.info(`QR hash registered on blockchain: ${qrHash}`);
+      return {
+        transactionHash: receipt.hash,
+        blockNumber: receipt.blockNumber
+      };
+    } catch (error: any) {
+      logger.error('QR hash registration failed', error);
+      throw new AppError(error.message || 'Failed to register QR on blockchain', 500);
+    }
+  }
+
+  /**
+   * Verify QR hash exists on blockchain
+   */
+  async verifyQRHash(qrHash: string): Promise<boolean> {
+    if (!this.contract) {
+      throw new AppError('Contract not initialized', 500);
+    }
+
+    try {
+      const hashBytes = '0x' + qrHash;
+      const isValid = await this.contract.verifyQR(hashBytes);
+      return isValid;
+    } catch (error: any) {
+      logger.error('QR hash verification failed', error);
+      return false;
+    }
+  }
 }
 
 export default new BlockchainService();

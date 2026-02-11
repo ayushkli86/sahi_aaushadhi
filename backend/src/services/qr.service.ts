@@ -1,73 +1,114 @@
 import QRCode from 'qrcode';
 import crypto from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 import { AppError } from '../utils/AppError';
 import logger from '../utils/logger';
 
+interface QRPayload {
+  qrHash: string;
+  productId: string;
+  nonce: string;
+  timestamp: number;
+  expiresAt: number;
+}
+
 class QRService {
-  private algorithm = 'aes-256-cbc';
-  private key = Buffer.from(process.env.ENCRYPTION_KEY || crypto.randomBytes(32));
-  private iv = crypto.randomBytes(16);
+  private QR_EXPIRY_TIME = 5 * 60 * 1000; // 5 minutes
 
-  encryptData(data: string): string {
-    try {
-      const cipher = crypto.createCipheriv(this.algorithm, this.key, this.iv);
-      let encrypted = cipher.update(data, 'utf8', 'hex');
-      encrypted += cipher.final('hex');
-      return `${this.iv.toString('hex')}:${encrypted}`;
-    } catch (error) {
-      logger.error('Encryption failed', error);
-      throw new AppError('Failed to encrypt data', 500);
-    }
+  /**
+   * Generate a unique QR hash for a medicine product
+   * This hash will be stored in DB and blockchain
+   */
+  generateQRHash(productId: string, nonce: string, timestamp: number): string {
+    const data = `${productId}:${nonce}:${timestamp}`;
+    return crypto.createHash('sha256').update(data).digest('hex');
   }
 
-  decryptData(encryptedData: string): string {
-    try {
-      const parts = encryptedData.split(':');
-      const iv = Buffer.from(parts[0], 'hex');
-      const encrypted = parts[1];
-      const decipher = crypto.createDecipheriv(this.algorithm, this.key, iv);
-      let decrypted = decipher.update(encrypted, 'hex', 'utf8');
-      decrypted += decipher.final('utf8');
-      return decrypted;
-    } catch (error) {
-      logger.error('Decryption failed', error);
-      throw new AppError('Invalid QR code data', 400);
-    }
+  /**
+   * Create QR payload with one-time nonce
+   * This prevents replay attacks
+   */
+  async createQRPayload(productId: string): Promise<QRPayload> {
+    const nonce = uuidv4();
+    const timestamp = Date.now();
+    const expiresAt = timestamp + this.QR_EXPIRY_TIME;
+    const qrHash = this.generateQRHash(productId, nonce, timestamp);
+
+    return {
+      qrHash,
+      productId,
+      nonce,
+      timestamp,
+      expiresAt
+    };
   }
 
-  async generateQRCode(productId: string, medicineData: any): Promise<string> {
+  /**
+   * Generate QR code image from payload
+   * Only hash is encoded - no sensitive data
+   */
+  async generateQRImage(payload: QRPayload): Promise<string> {
     try {
-      const data = JSON.stringify({
-        productId,
-        name: medicineData.name,
-        manufacturer: medicineData.manufacturer,
-        timestamp: Date.now()
+      // Only encode the hash and product ID
+      const qrData = JSON.stringify({
+        h: payload.qrHash,
+        p: payload.productId,
+        t: payload.timestamp
       });
 
-      const encrypted = this.encryptData(data);
-      const qrCodeDataURL = await QRCode.toDataURL(encrypted, {
+      const qrCodeDataURL = await QRCode.toDataURL(qrData, {
         errorCorrectionLevel: 'H',
         type: 'image/png',
         width: 300,
-        margin: 2
+        margin: 2,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF'
+        }
       });
 
-      logger.info(`QR code generated for product: ${productId}`);
+      logger.info(`QR image generated for product: ${payload.productId}`);
       return qrCodeDataURL;
     } catch (error) {
-      logger.error('QR generation failed', error);
-      throw new AppError('Failed to generate QR code', 500);
+      logger.error('QR image generation failed', error);
+      throw new AppError('Failed to generate QR code image', 500);
     }
   }
 
-  parseQRCode(qrData: string): any {
+  /**
+   * Parse scanned QR code data
+   */
+  parseQRData(qrData: string): { qrHash: string; productId: string; timestamp: number } {
     try {
-      const decrypted = this.decryptData(qrData);
-      return JSON.parse(decrypted);
+      const parsed = JSON.parse(qrData);
+      
+      if (!parsed.h || !parsed.p || !parsed.t) {
+        throw new Error('Invalid QR format');
+      }
+
+      return {
+        qrHash: parsed.h,
+        productId: parsed.p,
+        timestamp: parsed.t
+      };
     } catch (error) {
       logger.error('QR parsing failed', error);
-      throw new AppError('Invalid QR code', 400);
+      throw new AppError('Invalid QR code format', 400);
     }
+  }
+
+  /**
+   * Check if QR code is expired
+   */
+  isQRExpired(timestamp: number): boolean {
+    return Date.now() > (timestamp + this.QR_EXPIRY_TIME);
+  }
+
+  /**
+   * Verify QR hash matches expected format
+   */
+  isValidHash(hash: string): boolean {
+    return /^[a-f0-9]{64}$/.test(hash);
   }
 }
 

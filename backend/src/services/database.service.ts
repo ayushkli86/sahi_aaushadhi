@@ -73,6 +73,56 @@ class DatabaseService {
     }
   }
 
+  async storeQRRecord(qrHash: string, productId: string, expiresAt: number) {
+    try {
+      const { data, error } = await this.supabase
+        .from('qr_records')
+        .insert({
+          qr_hash: qrHash,
+          product_id: productId,
+          expires_at: new Date(expiresAt).toISOString(),
+          used: false,
+          created_at: new Date().toISOString()
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error: any) {
+      logger.error('Failed to store QR record', error);
+      throw new AppError(error.message, 500);
+    }
+  }
+
+  async getQRRecord(qrHash: string) {
+    try {
+      const { data, error } = await this.supabase
+        .from('qr_records')
+        .select('*')
+        .eq('qr_hash', qrHash)
+        .single();
+
+      if (error) return null;
+      return data;
+    } catch (error: any) {
+      return null;
+    }
+  }
+
+  async markQRAsUsed(qrHash: string) {
+    try {
+      const { error } = await this.supabase
+        .from('qr_records')
+        .update({ used: true, used_at: new Date().toISOString() })
+        .eq('qr_hash', qrHash);
+
+      if (error) throw error;
+    } catch (error: any) {
+      logger.error('Failed to mark QR as used', error);
+    }
+  }
+
   async getVerificationStats() {
     try {
       const { data, error } = await this.supabase
