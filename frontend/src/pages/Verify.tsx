@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { QrCode, Shield, ShieldAlert, ShieldCheck, Package, Calendar, Hash, MapPin, Clock, Loader2, AlertTriangle, Camera } from "lucide-react";
+import { QrCode, Shield, ShieldAlert, ShieldCheck, Package, Calendar, Hash, MapPin, Clock, Loader2, AlertTriangle, Camera, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import QRScanner from "@/components/QRScanner";
 import analyticsService from "@/services/analytics.service";
+import "../styles/verify-animations.css";
 
 type VerifyStatus = "idle" | "scanning" | "authentic" | "counterfeit" | "expired" | "suspicious" | "error";
 
@@ -39,6 +40,7 @@ const Verify = () => {
   const [result, setResult] = useState<VerificationResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
+  const [showChatHelp, setShowChatHelp] = useState(false);
   const { toast } = useToast();
 
   const handleVerify = async () => {
@@ -210,44 +212,66 @@ const Verify = () => {
 
         {status === "idle" && (
           <div className="space-y-6 animate-fade-up">
-            {/* QR Scanner Button */}
-            <div className="relative bg-card rounded-2xl border-2 border-dashed border-primary/30 p-8 flex flex-col items-center gap-4">
-              <div className="relative">
-                <QrCode className="w-20 h-20 text-primary/40" />
+            {/* Enhanced Scanner Portal */}
+            <div className="relative bg-white/10 backdrop-blur-md rounded-3xl border-2 border-teal-400/50 p-12 flex flex-col items-center gap-6 portal-glow portal-pulse">
+              <div className="relative w-32 h-32">
+                {/* QR Icon with scanning laser */}
+                <QrCode className="w-32 h-32 text-teal-300" />
+                {/* Scanning Laser Line */}
+                <div className="absolute left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-teal-400 to-transparent scanning-laser" style={{ top: '10%' }} />
+                {/* Pulsing Center Dot */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-6 h-6 rounded-full gradient-hero animate-pulse-glow" />
+                  <div className="w-8 h-8 rounded-full bg-teal-400 animate-ping opacity-75" />
+                  <div className="absolute w-6 h-6 rounded-full bg-teal-300" />
                 </div>
               </div>
+              
+              <div className="text-center">
+                <h3 className="text-xl font-bold text-white mb-2">Scanner Portal</h3>
+                <p className="text-sm text-white/70">Ready to verify your medicine</p>
+              </div>
+              
               <Button
                 onClick={() => setShowScanner(true)}
-                className="gradient-hero text-primary-foreground border-0 gap-2"
+                className="bg-teal-500 hover:bg-teal-400 text-white border-0 gap-2 px-8 py-6 text-lg font-semibold shadow-lg shadow-teal-500/50 hover:shadow-teal-400/60 transition-all"
                 size="lg"
               >
-                <Camera className="w-5 h-5" />
+                <Camera className="w-6 h-6" />
                 Scan QR Code
               </Button>
-              <p className="text-xs text-muted-foreground text-center max-w-xs">
+              <p className="text-xs text-white/60 text-center max-w-xs">
                 Click to open camera and scan the QR code on your medicine package
               </p>
             </div>
 
+            {/* Divider */}
             <div className="flex items-center gap-3">
-              <div className="flex-1 h-px bg-border" />
-              <span className="text-xs text-muted-foreground uppercase tracking-wide">or enter code</span>
-              <div className="flex-1 h-px bg-border" />
+              <div className="flex-1 h-px bg-white/20" />
+              <span className="text-xs text-white/70 uppercase tracking-wide font-medium">or enter code</span>
+              <div className="flex-1 h-px bg-white/20" />
             </div>
 
-            <div className="flex gap-2">
-              <Input
-                placeholder='Enter product ID (e.g., MED-ABC12345)'
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleVerify()}
-                className="flex-1"
-              />
-              <Button onClick={handleVerify} disabled={!code || loading} className="gradient-hero text-primary-foreground border-0">
-                Verify
-              </Button>
+            {/* Enhanced Input Section */}
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6">
+              <label className="block text-sm font-medium text-white mb-3">
+                Enter Product ID
+              </label>
+              <div className="flex gap-3">
+                <Input
+                  placeholder='e.g., MED-ABC12345'
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleVerify()}
+                  className="flex-1 bg-white/20 border-white/30 text-white placeholder:text-white/50 focus:bg-white/30 focus:border-teal-400"
+                />
+                <Button 
+                  onClick={handleVerify} 
+                  disabled={!code || loading} 
+                  className="bg-teal-500 hover:bg-teal-400 text-white border-0 px-6 font-semibold shadow-lg shadow-teal-500/50 hover:shadow-teal-400/60 transition-all"
+                >
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Verify'}
+                </Button>
+              </div>
             </div>
           </div>
         )}
@@ -443,13 +467,39 @@ const Verify = () => {
         )}
       </div>
 
-      {/* QR Scanner Modal */}
-      {showScanner && (
-        <QRScanner
-          onScanSuccess={handleScanSuccess}
-          onClose={() => setShowScanner(false)}
-        />
-      )}
+        {/* QR Scanner Modal */}
+        {showScanner && (
+          <QRScanner
+            onScanSuccess={handleScanSuccess}
+            onClose={() => setShowScanner(false)}
+          />
+        )}
+
+        {/* Floating Chat Help Bubble - positioned to not overlap with main chatbot */}
+        <button
+          onClick={() => setShowChatHelp(!showChatHelp)}
+          className="fixed bottom-24 right-6 w-14 h-14 rounded-full bg-gradient-to-br from-teal-500 to-teal-600 shadow-lg hover:shadow-xl transition-all hover:scale-110 flex items-center justify-center group z-40"
+          aria-label="How to scan help"
+        >
+          <MessageCircle className="w-6 h-6 text-white" />
+          {/* Notification Badge */}
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md animate-pulse">
+            ?
+          </span>
+          {/* Tooltip */}
+          {showChatHelp && (
+            <div className="absolute bottom-full right-0 mb-2 w-48 bg-white rounded-lg shadow-xl p-3 text-left border border-teal-200">
+              <p className="text-xs font-semibold text-teal-700 mb-1">How to scan?</p>
+              <p className="text-xs text-slate-600">
+                1. Click "Scan QR Code" button<br/>
+                2. Allow camera access<br/>
+                3. Point at medicine QR code<br/>
+                4. Wait for automatic verification
+              </p>
+              <div className="absolute bottom-0 right-4 transform translate-y-1/2 rotate-45 w-2 h-2 bg-white border-r border-b border-teal-200"></div>
+            </div>
+          )}
+        </button>
       </div>
     </div>
   );

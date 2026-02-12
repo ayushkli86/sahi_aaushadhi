@@ -1,0 +1,68 @@
+/* Scanning Portal Animations */
+@keyframes portal-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(94, 234, 212, 0.3),
+                0 0 40px rgba(94, 234, 212, 0.2),
+                0 0 60px rgba(94, 234, 212, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(94, 234, 212, 0.5),
+                0 0 60px rgba(94, 234, 212, 0.3),
+                0 0 90px rgba(94, 234, 212, 0.2);
+  }
+}
+
+@keyframes portal-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 0.9;
+  }
+}
+
+@keyframes scanning-laser {
+  0% {
+    top: 10%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 90%;
+    opacity: 0;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.portal-glow {
+  animation: portal-glow 3s ease-in-out infinite;
+}
+
+.portal-pulse {
+  animation: portal-pulse 2s ease-in-out infinite;
+}
+
+.scanning-laser {
+  animation: scanning-laser 2s ease-in-out infinite;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s ease-out;
+}
