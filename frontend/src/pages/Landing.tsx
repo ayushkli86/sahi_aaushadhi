@@ -6,11 +6,11 @@ import "../styles/verify-animations.css";
 const Landing = () => {
   return (
     <div className="min-h-screen bg-white relative font-sans">
-      {/* Radial Gradient Background */}
+      {/* Dark Green Gradient Background */}
       <div 
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse at top, #10b981 0%, #059669 25%, #047857 50%, #065f46 75%, #064e3b 100%)',
+          background: 'linear-gradient(135deg, #163A2C 0%, #1B4433 35%, #0F2A21 70%, #0B2019 100%)',
         }}
       />
 
@@ -43,20 +43,20 @@ const Landing = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                 {/* Verify Medicine Card */}
                 <Link to="/verify" className="group">
-                  <div className="button-3d bg-white/20 backdrop-blur-lg rounded-3xl p-8 border-2 border-white/40 hover:bg-white/30 hover:border-white/60 transition-all duration-300 h-full shadow-2xl">
-                    <div className="flex flex-col items-center text-center space-y-4">
-                      <div className="w-20 h-20 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                        <QrCode className="w-10 h-10 text-white" strokeWidth={2.5} />
+                  <div className="bg-[#1a4434]/80 backdrop-blur-lg rounded-2xl p-8 border border-emerald-700/50 hover:border-emerald-500/70 hover:bg-[#1f5040]/80 transition-all duration-300 h-full shadow-xl">
+                    <div className="flex flex-col items-start space-y-4">
+                      <div className="w-14 h-14 rounded-xl bg-emerald-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                        <QrCode className="w-7 h-7 text-white" strokeWidth={2.5} />
                       </div>
-                      <div>
-                        <h3 className="text-2xl font-black text-white mb-2">Verify Medicine</h3>
-                        <p className="text-white/80 text-sm font-medium leading-relaxed">
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold text-white mb-2">Verify Medicine</h3>
+                        <p className="text-emerald-100/80 text-sm font-medium leading-relaxed">
                           Scan QR code or enter product ID to verify authenticity instantly
                         </p>
                       </div>
-                      <div className="flex items-center gap-2 text-white font-bold text-sm">
+                      <div className="flex items-center gap-2 text-emerald-300 font-semibold text-sm group-hover:gap-3 transition-all">
                         <span>Start Verification</span>
-                        <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        <ChevronRight className="w-5 h-5" />
                       </div>
                     </div>
                   </div>
@@ -64,20 +64,19 @@ const Landing = () => {
 
                 {/* Find Pharmacy Card */}
                 <div className="group cursor-pointer">
-                  <div className="button-3d bg-white/20 backdrop-blur-lg rounded-3xl p-8 border-2 border-white/40 hover:bg-white/30 hover:border-white/60 transition-all duration-300 h-full shadow-2xl">
-                    <div className="flex flex-col items-center text-center space-y-4">
-                      <div className="w-20 h-20 rounded-2xl bg-blue-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                        <MapPin className="w-10 h-10 text-white" strokeWidth={2.5} />
+                  <div className="bg-[#1a4434]/80 backdrop-blur-lg rounded-2xl p-8 border border-emerald-700/50 hover:border-blue-500/70 hover:bg-[#1f5040]/80 transition-all duration-300 h-full shadow-xl">
+                    <div className="flex flex-col items-start space-y-4">
+                      <div className="w-14 h-14 rounded-xl bg-blue-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                        <MapPin className="w-7 h-7 text-white" strokeWidth={2.5} />
                       </div>
-                      <div>
-                        <h3 className="text-2xl font-black text-white mb-2">Find Pharmacy</h3>
-                        <p className="text-white/80 text-sm font-medium leading-relaxed">
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold text-white mb-2">Find Pharmacy</h3>
+                        <p className="text-emerald-100/80 text-sm font-medium leading-relaxed">
                           Locate verified pharmacies near you with authentic medicines
                         </p>
                       </div>
-                      <div className="flex items-center gap-2 text-white font-bold text-sm">
+                      <div className="flex items-center gap-2 text-blue-300 font-semibold text-sm">
                         <span>Coming Soon</span>
-                        <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
                   </div>
@@ -85,20 +84,19 @@ const Landing = () => {
 
                 {/* Emergency Alerts Card */}
                 <div className="group cursor-pointer">
-                  <div className="button-3d bg-white/20 backdrop-blur-lg rounded-3xl p-8 border-2 border-white/40 hover:bg-white/30 hover:border-white/60 transition-all duration-300 h-full shadow-2xl">
-                    <div className="flex flex-col items-center text-center space-y-4">
-                      <div className="w-20 h-20 rounded-2xl bg-red-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                        <Bell className="w-10 h-10 text-white" strokeWidth={2.5} />
+                  <div className="bg-[#1a4434]/80 backdrop-blur-lg rounded-2xl p-8 border border-emerald-700/50 hover:border-red-500/70 hover:bg-[#1f5040]/80 transition-all duration-300 h-full shadow-xl">
+                    <div className="flex flex-col items-start space-y-4">
+                      <div className="w-14 h-14 rounded-xl bg-red-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                        <Bell className="w-7 h-7 text-white" strokeWidth={2.5} />
                       </div>
-                      <div>
-                        <h3 className="text-2xl font-black text-white mb-2">Emergency Alerts</h3>
-                        <p className="text-white/80 text-sm font-medium leading-relaxed">
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold text-white mb-2">Emergency Alerts</h3>
+                        <p className="text-emerald-100/80 text-sm font-medium leading-relaxed">
                           Get instant alerts about counterfeit medicine recalls
                         </p>
                       </div>
-                      <div className="flex items-center gap-2 text-white font-bold text-sm">
+                      <div className="flex items-center gap-2 text-red-300 font-semibold text-sm">
                         <span>Coming Soon</span>
-                        <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
                   </div>
@@ -109,33 +107,33 @@ const Landing = () => {
         </section>
 
         {/* Trust Signals Section */}
-        <section className="py-16 bg-white/10 backdrop-blur-sm border-y border-white/20">
+        <section className="py-16 bg-black/20 backdrop-blur-sm border-y border-emerald-800/30">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div className="text-center space-y-3">
-                  <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center mx-auto border-2 border-white/30">
-                    <Shield className="w-8 h-8 text-white" />
+                <div className="bg-[#1a4434]/60 backdrop-blur-md rounded-xl p-6 border border-emerald-700/40 text-center space-y-3">
+                  <div className="w-12 h-12 rounded-lg bg-emerald-500/20 flex items-center justify-center mx-auto border border-emerald-500/30">
+                    <Shield className="w-6 h-6 text-emerald-300" />
                   </div>
-                  <p className="text-white font-bold text-sm">Blockchain Secured</p>
+                  <p className="text-white font-semibold text-sm">Blockchain Secured</p>
                 </div>
-                <div className="text-center space-y-3">
-                  <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center mx-auto border-2 border-white/30">
-                    <Award className="w-8 h-8 text-white" />
+                <div className="bg-[#1a4434]/60 backdrop-blur-md rounded-xl p-6 border border-emerald-700/40 text-center space-y-3">
+                  <div className="w-12 h-12 rounded-lg bg-emerald-500/20 flex items-center justify-center mx-auto border border-emerald-500/30">
+                    <Award className="w-6 h-6 text-emerald-300" />
                   </div>
-                  <p className="text-white font-bold text-sm">DDA Approved</p>
+                  <p className="text-white font-semibold text-sm">DDA Approved</p>
                 </div>
-                <div className="text-center space-y-3">
-                  <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center mx-auto border-2 border-white/30">
-                    <CheckCircle2 className="w-8 h-8 text-white" />
+                <div className="bg-[#1a4434]/60 backdrop-blur-md rounded-xl p-6 border border-emerald-700/40 text-center space-y-3">
+                  <div className="w-12 h-12 rounded-lg bg-emerald-500/20 flex items-center justify-center mx-auto border border-emerald-500/30">
+                    <CheckCircle2 className="w-6 h-6 text-emerald-300" />
                   </div>
-                  <p className="text-white font-bold text-sm">Real-time Tracking</p>
+                  <p className="text-white font-semibold text-sm">Real-time Tracking</p>
                 </div>
-                <div className="text-center space-y-3">
-                  <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center mx-auto border-2 border-white/30">
-                    <AlertTriangle className="w-8 h-8 text-white" />
+                <div className="bg-[#1a4434]/60 backdrop-blur-md rounded-xl p-6 border border-emerald-700/40 text-center space-y-3">
+                  <div className="w-12 h-12 rounded-lg bg-emerald-500/20 flex items-center justify-center mx-auto border border-emerald-500/30">
+                    <AlertTriangle className="w-6 h-6 text-emerald-300" />
                   </div>
-                  <p className="text-white font-bold text-sm">Counterfeit Detection</p>
+                  <p className="text-white font-semibold text-sm">Counterfeit Detection</p>
                 </div>
               </div>
             </div>
@@ -143,25 +141,25 @@ const Landing = () => {
         </section>
 
         {/* Stats Section */}
-        <section className="py-20 bg-white/5 backdrop-blur-sm">
+        <section className="py-20 bg-black/10 backdrop-blur-sm">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-12">
                 <h2 className="text-4xl md:text-5xl font-black text-white mb-4">Why It Matters</h2>
-                <p className="text-white/80 text-lg font-medium">The counterfeit medicine crisis in Nepal</p>
+                <p className="text-emerald-100/80 text-lg font-medium">The counterfeit medicine crisis in Nepal</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="bg-white/15 backdrop-blur-lg rounded-3xl p-8 border-2 border-white/30 text-center shadow-xl">
-                  <div className="text-5xl md:text-6xl font-black text-emerald-200 mb-3">1 in 10</div>
-                  <p className="text-white/90 font-semibold leading-relaxed">Medicines falsified in low-income countries</p>
+                <div className="bg-[#1a4434]/70 backdrop-blur-lg rounded-2xl p-8 border border-emerald-700/50 text-center shadow-xl">
+                  <div className="text-5xl md:text-6xl font-black text-emerald-300 mb-3">1 in 10</div>
+                  <p className="text-emerald-100/90 font-semibold leading-relaxed">Medicines falsified in low-income countries</p>
                 </div>
-                <div className="bg-white/15 backdrop-blur-lg rounded-3xl p-8 border-2 border-white/30 text-center shadow-xl">
-                  <div className="text-5xl md:text-6xl font-black text-emerald-200 mb-3">15%</div>
-                  <p className="text-white/90 font-semibold leading-relaxed">Nepali market affected by substandard drugs</p>
+                <div className="bg-[#1a4434]/70 backdrop-blur-lg rounded-2xl p-8 border border-emerald-700/50 text-center shadow-xl">
+                  <div className="text-5xl md:text-6xl font-black text-emerald-300 mb-3">15%</div>
+                  <p className="text-emerald-100/90 font-semibold leading-relaxed">Nepali market affected by substandard drugs</p>
                 </div>
-                <div className="bg-white/15 backdrop-blur-lg rounded-3xl p-8 border-2 border-white/30 text-center shadow-xl">
-                  <div className="text-5xl md:text-6xl font-black text-emerald-200 mb-3">100K+</div>
-                  <p className="text-white/90 font-semibold leading-relaxed">Lives at risk from counterfeit medicine yearly</p>
+                <div className="bg-[#1a4434]/70 backdrop-blur-lg rounded-2xl p-8 border border-emerald-700/50 text-center shadow-xl">
+                  <div className="text-5xl md:text-6xl font-black text-emerald-300 mb-3">100K+</div>
+                  <p className="text-emerald-100/90 font-semibold leading-relaxed">Lives at risk from counterfeit medicine yearly</p>
                 </div>
               </div>
             </div>
@@ -169,34 +167,34 @@ const Landing = () => {
         </section>
 
         {/* Footer with Official Seal */}
-        <footer className="bg-black/40 backdrop-blur-md py-12 border-t-2 border-white/20">
+        <footer className="bg-[#0d1f18]/90 backdrop-blur-md py-12 border-t border-emerald-800/40">
           <div className="container mx-auto px-4">
             <div className="flex flex-col items-center gap-6">
               {/* Official DDA Nepal Seal */}
-              <div className="bg-white/20 backdrop-blur-lg rounded-2xl px-8 py-4 border-2 border-white/40 shadow-xl">
+              <div className="bg-[#1a4434]/70 backdrop-blur-lg rounded-xl px-8 py-4 border border-emerald-700/50 shadow-xl">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center">
+                  <div className="w-14 h-14 rounded-lg bg-white flex items-center justify-center">
                     <Shield className="w-8 h-8 text-emerald-600" />
                   </div>
                   <div className="text-left">
-                    <p className="text-white font-black text-lg">Official DDA Nepal</p>
-                    <p className="text-white/80 text-sm font-semibold">Department of Drug Administration</p>
+                    <p className="text-white font-bold text-lg">Official DDA Nepal</p>
+                    <p className="text-emerald-200/80 text-sm font-medium">Department of Drug Administration</p>
                   </div>
                 </div>
               </div>
 
               <div className="flex items-center gap-2">
-                <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
+                <div className="w-10 h-10 rounded-lg bg-emerald-500/20 backdrop-blur-sm flex items-center justify-center border border-emerald-500/30">
                   <Shield className="w-5 h-5 text-emerald-300" />
                 </div>
                 <span className="font-black text-xl text-white">Sahi Aaushadi</span>
               </div>
               
-              <p className="text-sm text-white/70 text-center font-medium">
+              <p className="text-sm text-emerald-200/60 text-center font-medium">
                 © 2026 Sahi Aaushadi. Securing Nepal's pharmaceutical supply chain.
               </p>
               
-              <div className="flex items-center gap-3 text-xs text-white/60 font-semibold">
+              <div className="flex items-center gap-3 text-xs text-emerald-300/50 font-semibold">
                 <span>Powered by Blockchain</span>
                 <span>•</span>
                 <span>DDA Code 2080 Compliant</span>

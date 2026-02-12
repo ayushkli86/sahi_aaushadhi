@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { QrCode, Shield, ShieldAlert, ShieldCheck, Package, Calendar, Hash, MapPin, Clock, Loader2, AlertTriangle, Camera, MessageCircle } from "lucide-react";
+import { QrCode, Shield, ShieldAlert, ShieldCheck, Package, Calendar, Hash, MapPin, Clock, Loader2, AlertTriangle, Camera, MessageCircle, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import QRScanner from "@/components/QRScanner";
 import analyticsService from "@/services/analytics.service";
+import { walletService } from "@/services/wallet.service";
 import "../styles/verify-animations.css";
 
 type VerifyStatus = "idle" | "scanning" | "authentic" | "counterfeit" | "expired" | "suspicious" | "error";
@@ -42,6 +44,7 @@ const Verify = () => {
   const [showScanner, setShowScanner] = useState(false);
   const [showChatHelp, setShowChatHelp] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const handleVerify = async () => {
     await handleVerifyWithCode(code);
@@ -148,10 +151,51 @@ const Verify = () => {
       return;
     }
 
+    // Check if user is logged in
+    if (!user?.id) {
+      toast({
+        title: "Login Required",
+        description: "Please login to verify medicines",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Check wallet balance before scanning
+    const canScan = await walletService.canUserScan(user.id);
+    if (!canScan) {
+      toast({
+        title: "Insufficient Balance",
+        description: "You need NPR 0.10 to verify. Please add funds to your wallet.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setLoading(true);
     setStatus("scanning");
 
     try {
+      // Deduct NPR 0.10 from wallet
+      const deducted = await walletService.deductScanCost(user.id, productId);
+      
+      if (!deducted) {
+        toast({
+          title: "Payment Failed",
+          description: "Unable to deduct scan cost. Please try again.",
+          variant: "destructive"
+        });
+        setLoading(false);
+        setStatus("idle");
+        return;
+      }
+
+      // Show deduction notification
+      toast({
+        title: "Scan Initiated",
+        description: "NPR 0.10 deducted from wallet",
+      });
+
       const response = await fetch(`${API_URL}/verify`, {
         method: 'POST',
         headers: {
