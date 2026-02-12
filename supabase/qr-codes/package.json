@@ -1,0 +1,21 @@
+{
+  "name": "sahi-aaushadi-qr-generator",
+  "version": "1.0.0",
+  "description": "QR Code Generator for Sahi Aaushadi Medicine Verification System",
+  "main": "generate-medicine-qr-codes.js",
+  "scripts": {
+    "generate": "node generate-medicine-qr-codes.js",
+    "clean": "rm -rf generated || rmdir /s /q generated"
+  },
+  "keywords": [
+    "qr-code",
+    "medicine",
+    "blockchain",
+    "verification"
+  ],
+  "author": "Sahi Aaushadi Team",
+  "license": "MIT",
+  "dependencies": {
+    "qrcode": "^1.5.3"
+  }
+}

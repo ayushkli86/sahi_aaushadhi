@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { QrCode, Shield, ShieldAlert, ShieldCheck, Package, Calendar, Hash, MapPin, Clock, Loader2, AlertTriangle } from "lucide-react";
+import { QrCode, Shield, ShieldAlert, ShieldCheck, Package, Calendar, Hash, MapPin, Clock, Loader2, AlertTriangle, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import QRScanner from "@/components/QRScanner";
+import analyticsService from "@/services/analytics.service";
 
 type VerifyStatus = "idle" | "scanning" | "authentic" | "counterfeit" | "expired" | "suspicious" | "error";
 
@@ -36,10 +38,106 @@ const Verify = () => {
   const [code, setCode] = useState("");
   const [result, setResult] = useState<VerificationResult | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showScanner, setShowScanner] = useState(false);
   const { toast } = useToast();
 
   const handleVerify = async () => {
-    if (!code.trim()) {
+    await handleVerifyWithCode(code);
+  };
+
+  const handleReset = () => {
+    setStatus("idle");
+    setCode("");
+    setResult(null);
+  };
+
+  const handleScanSuccess = (decodedText: string) => {
+    // Close scanner
+    setShowScanner(false);
+    
+    // Extract product ID from QR code
+    // QR code might contain JSON, plain text format, or just the product ID
+    let productId = decodedText;
+    let scannedData = null;
+    
+    try {
+      // Try to parse as JSON first
+      const parsed = JSON.parse(decodedText);
+      scannedData = parsed;
+      productId = parsed.productId || parsed.product_id || parsed.id || decodedText;
+    } catch {
+      // Check if it's batch format (Batch No: ... Name: ... Manufacturer: ...)
+      if (decodedText.includes('Batch No:')) {
+        const lines = decodedText.split('\n');
+        const batchMatch = lines.find(l => l.startsWith('Batch No:'));
+        const nameMatch = lines.find(l => l.startsWith('Name:'));
+        const mfgMatch = lines.find(l => l.startsWith('Manufacturer:'));
+        const expiryMatch = lines.find(l => l.startsWith('Expiry Date:'));
+        
+        if (batchMatch) {
+          const batchNumber = batchMatch.replace('Batch No:', '').trim();
+          // Use batch number as identifier for verification
+          productId = batchNumber;
+          
+          if (nameMatch && mfgMatch) {
+            scannedData = {
+              batchNumber: batchNumber,
+              name: nameMatch.replace('Name:', '').trim(),
+              manufacturer: mfgMatch.replace('Manufacturer:', '').trim(),
+              expiryDate: expiryMatch ? expiryMatch.replace('Expiry Date:', '').trim() : null
+            };
+          }
+        }
+      } 
+      // Check if it's Product ID format
+      else if (decodedText.includes('Product ID:')) {
+        const lines = decodedText.split('\n');
+        const idMatch = lines.find(l => l.startsWith('Product ID:'));
+        const nameMatch = lines.find(l => l.startsWith('Name:'));
+        const mfgMatch = lines.find(l => l.startsWith('Manufacturer:'));
+        const expiryMatch = lines.find(l => l.startsWith('Expiry Date:'));
+        
+        if (idMatch) {
+          productId = idMatch.replace('Product ID:', '').trim();
+          
+          if (nameMatch && mfgMatch) {
+            scannedData = {
+              name: nameMatch.replace('Name:', '').trim(),
+              manufacturer: mfgMatch.replace('Manufacturer:', '').trim(),
+              expiryDate: expiryMatch ? expiryMatch.replace('Expiry Date:', '').trim() : null
+            };
+          }
+        }
+      } else {
+        // If not JSON or plain text format, use the raw text as product ID
+        productId = decodedText;
+      }
+    }
+    
+    // Set the code and trigger verification
+    setCode(productId);
+    
+    // Show success toast with more details if data available
+    if (scannedData) {
+      toast({
+        title: "✅ Medicine QR Code Scanned",
+        description: `${scannedData.name || 'Medicine'} - ${scannedData.manufacturer || 'Unknown'}`,
+      });
+    } else {
+      toast({
+        title: "QR Code Scanned",
+        description: `Code: ${productId}`,
+      });
+    }
+    
+    // Auto-verify after a short delay
+    setTimeout(() => {
+      handleVerifyWithCode(productId);
+    }, 500);
+  };
+
+  const handleVerifyWithCode = async (productId: string) => {
+    if (!productId.trim()) {
       toast({
         title: "Error",
         description: "Please enter a product ID",
@@ -57,11 +155,14 @@ const Verify = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ productId: code.trim() })
+        body: JSON.stringify({ productId: productId.trim() })
       });
 
       const data: VerificationResult = await response.json();
       setResult(data);
+
+      // Increment scan count in analytics
+      analyticsService.incrementScanCount();
 
       // Map backend status to frontend status
       if (data.status === 'AUTHENTIC') {
@@ -87,12 +188,6 @@ const Verify = () => {
     }
   };
 
-  const handleReset = () => {
-    setStatus("idle");
-    setCode("");
-    setResult(null);
-  };
-
   return (
     <div className="min-h-screen pt-16 bg-background">
       <div className="container mx-auto px-4 py-12 max-w-lg">
@@ -105,17 +200,24 @@ const Verify = () => {
 
         {status === "idle" && (
           <div className="space-y-6 animate-fade-up">
-            {/* QR Scanner Simulation */}
-            <div className="relative bg-card rounded-2xl border-2 border-dashed border-primary/30 p-12 flex flex-col items-center gap-4">
+            {/* QR Scanner Button */}
+            <div className="relative bg-card rounded-2xl border-2 border-dashed border-primary/30 p-8 flex flex-col items-center gap-4">
               <div className="relative">
                 <QrCode className="w-20 h-20 text-primary/40" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-6 h-6 rounded-full gradient-hero animate-pulse-glow" />
                 </div>
               </div>
-              <p className="text-muted-foreground text-sm">Scan QR code to verify</p>
+              <Button
+                onClick={() => setShowScanner(true)}
+                className="gradient-hero text-primary-foreground border-0 gap-2"
+                size="lg"
+              >
+                <Camera className="w-5 h-5" />
+                Scan QR Code
+              </Button>
               <p className="text-xs text-muted-foreground text-center max-w-xs">
-                Or enter the product ID below to verify authenticity
+                Click to open camera and scan the QR code on your medicine package
               </p>
             </div>
 
@@ -330,6 +432,14 @@ const Verify = () => {
           </div>
         )}
       </div>
+
+      {/* QR Scanner Modal */}
+      {showScanner && (
+        <QRScanner
+          onScanSuccess={handleScanSuccess}
+          onClose={() => setShowScanner(false)}
+        />
+      )}
     </div>
   );
 };

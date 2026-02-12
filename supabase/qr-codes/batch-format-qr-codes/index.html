@@ -1,0 +1,640 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sahi Aaushadi - Full Data QR Codes</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      padding: 20px;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #0D9488;
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 2.5em;
+    }
+    .subtitle {
+      text-align: center;
+      color: #64748b;
+      margin-bottom: 20px;
+      font-size: 1.1em;
+    }
+    .info-banner {
+      background: linear-gradient(135deg, #0D9488 0%, #14b8a6 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .info-banner h3 {
+      margin-bottom: 10px;
+      font-size: 1.3em;
+    }
+    .info-banner p {
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    .stat-card {
+      background: linear-gradient(135deg, #0D9488 0%, #14b8a6 100%);
+      color: white;
+      padding: 20px 40px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
+    }
+    .stat-value {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .stat-label {
+      font-size: 0.9em;
+      opacity: 0.9;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+    .card {
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 15px;
+      padding: 20px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(13, 148, 136, 0.2);
+      border-color: #0D9488;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #0D9488, #14b8a6);
+    }
+    .qr-container {
+      text-align: center;
+      margin-bottom: 15px;
+      background: #f8fafc;
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .qr-container img {
+      max-width: 200px;
+      height: auto;
+      border-radius: 8px;
+    }
+    .product-id {
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      color: #0D9488;
+      font-size: 1.1em;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .medicine-name {
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 8px;
+      font-size: 1.1em;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.9em;
+    }
+    .info-row:last-child {
+      border-bottom: none;
+    }
+    .info-label {
+      color: #64748b;
+      font-weight: 500;
+    }
+    .info-value {
+      color: #334155;
+      font-weight: 600;
+    }
+    .data-badge {
+      display: inline-block;
+      background: #14b8a6;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75em;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    .download-btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(135deg, #0D9488 0%, #14b8a6 100%);
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 8px;
+      margin-top: 15px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .download-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 15px rgba(13, 148, 136, 0.4);
+    }
+    .footer {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 2px solid #e2e8f0;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏥 Sahi Aaushadi</h1>
+    <p class="subtitle">Full Data QR Codes - Complete Medicine Information</p>
+    
+    <div class="info-banner">
+      <h3>📦 Batch Format QR Codes</h3>
+      <p>These QR codes contain medicine information in plain text format:<br>
+      <strong>Batch No • Name • Manufacturer • Expiry Date</strong></p>
+      <p style="margin-top: 10px; font-size: 0.9em;">
+        ✅ Easy to read format without JSON quotes
+      </p>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-value">21</div>
+        <div class="stat-label">Total Medicines</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">21</div>
+        <div class="stat-label">QR Codes Generated</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200000.png" alt="MED-AUTH200000">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200000</div>
+          <div class="medicine-name">Paracetamol 500mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Nepal Pharma Ltd</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">12/31/2026</span>
+          </div>
+          <a href="MED-AUTH200000.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200001.png" alt="MED-AUTH200001">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200001</div>
+          <div class="medicine-name">Amoxicillin 250mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Himalayan Drugs</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">6/30/2027</span>
+          </div>
+          <a href="MED-AUTH200001.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200002.png" alt="MED-AUTH200002">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200002</div>
+          <div class="medicine-name">Ibuprofen 400mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Nepal Pharma Ltd</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">11/15/2026</span>
+          </div>
+          <a href="MED-AUTH200002.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200003.png" alt="MED-AUTH200003">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200003</div>
+          <div class="medicine-name">Ciprofloxacin 500mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Kathmandu Pharmaceuticals</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">3/20/2027</span>
+          </div>
+          <a href="MED-AUTH200003.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200004.png" alt="MED-AUTH200004">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200004</div>
+          <div class="medicine-name">Metformin 500mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Himalayan Drugs</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">8/10/2027</span>
+          </div>
+          <a href="MED-AUTH200004.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200005.png" alt="MED-AUTH200005">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200005</div>
+          <div class="medicine-name">Omeprazole 20mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Nepal Pharma Ltd</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">10/25/2026</span>
+          </div>
+          <a href="MED-AUTH200005.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200006.png" alt="MED-AUTH200006">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200006</div>
+          <div class="medicine-name">Aspirin 75mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Pokhara Medicines</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">5/18/2027</span>
+          </div>
+          <a href="MED-AUTH200006.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200007.png" alt="MED-AUTH200007">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200007</div>
+          <div class="medicine-name">Atorvastatin 10mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Kathmandu Pharmaceuticals</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">2/14/2027</span>
+          </div>
+          <a href="MED-AUTH200007.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200008.png" alt="MED-AUTH200008">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200008</div>
+          <div class="medicine-name">Losartan 50mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Himalayan Drugs</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">7/22/2027</span>
+          </div>
+          <a href="MED-AUTH200008.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200009.png" alt="MED-AUTH200009">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200009</div>
+          <div class="medicine-name">Amlodipine 5mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Nepal Pharma Ltd</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">9/30/2026</span>
+          </div>
+          <a href="MED-AUTH200009.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200010.png" alt="MED-AUTH200010">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200010</div>
+          <div class="medicine-name">Cetirizine 10mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Pokhara Medicines</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">4/12/2027</span>
+          </div>
+          <a href="MED-AUTH200010.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200011.png" alt="MED-AUTH200011">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200011</div>
+          <div class="medicine-name">Azithromycin 500mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Kathmandu Pharmaceuticals</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">1/28/2027</span>
+          </div>
+          <a href="MED-AUTH200011.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200012.png" alt="MED-AUTH200012">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200012</div>
+          <div class="medicine-name">Doxycycline 100mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Himalayan Drugs</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">6/15/2027</span>
+          </div>
+          <a href="MED-AUTH200012.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200013.png" alt="MED-AUTH200013">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200013</div>
+          <div class="medicine-name">Ranitidine 150mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Nepal Pharma Ltd</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">12/20/2026</span>
+          </div>
+          <a href="MED-AUTH200013.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200014.png" alt="MED-AUTH200014">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200014</div>
+          <div class="medicine-name">Diclofenac 50mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Pokhara Medicines</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">3/8/2027</span>
+          </div>
+          <a href="MED-AUTH200014.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200015.png" alt="MED-AUTH200015">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200015</div>
+          <div class="medicine-name">Prednisolone 5mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Kathmandu Pharmaceuticals</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">8/25/2027</span>
+          </div>
+          <a href="MED-AUTH200015.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200016.png" alt="MED-AUTH200016">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200016</div>
+          <div class="medicine-name">Levothyroxine 50mcg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Himalayan Drugs</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">5/30/2027</span>
+          </div>
+          <a href="MED-AUTH200016.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200017.png" alt="MED-AUTH200017">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200017</div>
+          <div class="medicine-name">Salbutamol 100mcg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Nepal Pharma Ltd</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">11/10/2026</span>
+          </div>
+          <a href="MED-AUTH200017.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200018.png" alt="MED-AUTH200018">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200018</div>
+          <div class="medicine-name">Insulin Glargine 100U</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Pokhara Medicines</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">2/28/2027</span>
+          </div>
+          <a href="MED-AUTH200018.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200019.png" alt="MED-AUTH200019">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200019</div>
+          <div class="medicine-name">Warfarin 5mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Kathmandu Pharmaceuticals</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">7/15/2027</span>
+          </div>
+          <a href="MED-AUTH200019.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+        <div class="card">
+          <div class="qr-container">
+            <img src="MED-AUTH200020.png" alt="MED-AUTH200020">
+            <div class="data-badge">BATCH FORMAT</div>
+          </div>
+          <div class="product-id">MED-AUTH200020</div>
+          <div class="medicine-name">Furosemide 40mg</div>
+          <div class="info-row">
+            <span class="info-label">Manufacturer:</span>
+            <span class="info-value">Himalayan Drugs</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Expiry Date:</span>
+            <span class="info-value">4/20/2027</span>
+          </div>
+          <a href="MED-AUTH200020.png" download class="download-btn">
+            📥 Download QR Code
+          </a>
+        </div>
+      
+    </div>
+
+    <div class="footer">
+      <p><strong>Generated:</strong> 2/12/2026, 7:18:36 PM</p>
+      <p style="margin-top: 10px;"><strong>QR Code Type:</strong> Batch Format (Plain Text)</p>
+      <p style="margin-top: 10px;">© 2026 Sahi Aaushadi - Securing Nepal's Pharmaceutical Supply Chain</p>
+    </div>
+  </div>
+</body>
+</html>
+  

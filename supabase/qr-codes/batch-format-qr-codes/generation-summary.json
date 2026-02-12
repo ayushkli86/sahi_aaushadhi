@@ -1,0 +1,176 @@
+{
+  "generatedAt": "2026-02-12T13:33:36.725Z",
+  "totalMedicines": 21,
+  "successCount": 21,
+  "failedCount": 0,
+  "results": [
+    {
+      "productId": "MED-AUTH200000",
+      "name": "Paracetamol 500mg",
+      "manufacturer": "Nepal Pharma Ltd",
+      "expiryDate": "2026-12-31",
+      "filename": "MED-AUTH200000.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200001",
+      "name": "Amoxicillin 250mg",
+      "manufacturer": "Himalayan Drugs",
+      "expiryDate": "2027-06-30",
+      "filename": "MED-AUTH200001.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200002",
+      "name": "Ibuprofen 400mg",
+      "manufacturer": "Nepal Pharma Ltd",
+      "expiryDate": "2026-11-15",
+      "filename": "MED-AUTH200002.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200003",
+      "name": "Ciprofloxacin 500mg",
+      "manufacturer": "Kathmandu Pharmaceuticals",
+      "expiryDate": "2027-03-20",
+      "filename": "MED-AUTH200003.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200004",
+      "name": "Metformin 500mg",
+      "manufacturer": "Himalayan Drugs",
+      "expiryDate": "2027-08-10",
+      "filename": "MED-AUTH200004.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200005",
+      "name": "Omeprazole 20mg",
+      "manufacturer": "Nepal Pharma Ltd",
+      "expiryDate": "2026-10-25",
+      "filename": "MED-AUTH200005.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200006",
+      "name": "Aspirin 75mg",
+      "manufacturer": "Pokhara Medicines",
+      "expiryDate": "2027-05-18",
+      "filename": "MED-AUTH200006.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200007",
+      "name": "Atorvastatin 10mg",
+      "manufacturer": "Kathmandu Pharmaceuticals",
+      "expiryDate": "2027-02-14",
+      "filename": "MED-AUTH200007.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200008",
+      "name": "Losartan 50mg",
+      "manufacturer": "Himalayan Drugs",
+      "expiryDate": "2027-07-22",
+      "filename": "MED-AUTH200008.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200009",
+      "name": "Amlodipine 5mg",
+      "manufacturer": "Nepal Pharma Ltd",
+      "expiryDate": "2026-09-30",
+      "filename": "MED-AUTH200009.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200010",
+      "name": "Cetirizine 10mg",
+      "manufacturer": "Pokhara Medicines",
+      "expiryDate": "2027-04-12",
+      "filename": "MED-AUTH200010.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200011",
+      "name": "Azithromycin 500mg",
+      "manufacturer": "Kathmandu Pharmaceuticals",
+      "expiryDate": "2027-01-28",
+      "filename": "MED-AUTH200011.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200012",
+      "name": "Doxycycline 100mg",
+      "manufacturer": "Himalayan Drugs",
+      "expiryDate": "2027-06-15",
+      "filename": "MED-AUTH200012.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200013",
+      "name": "Ranitidine 150mg",
+      "manufacturer": "Nepal Pharma Ltd",
+      "expiryDate": "2026-12-20",
+      "filename": "MED-AUTH200013.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200014",
+      "name": "Diclofenac 50mg",
+      "manufacturer": "Pokhara Medicines",
+      "expiryDate": "2027-03-08",
+      "filename": "MED-AUTH200014.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200015",
+      "name": "Prednisolone 5mg",
+      "manufacturer": "Kathmandu Pharmaceuticals",
+      "expiryDate": "2027-08-25",
+      "filename": "MED-AUTH200015.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200016",
+      "name": "Levothyroxine 50mcg",
+      "manufacturer": "Himalayan Drugs",
+      "expiryDate": "2027-05-30",
+      "filename": "MED-AUTH200016.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200017",
+      "name": "Salbutamol 100mcg",
+      "manufacturer": "Nepal Pharma Ltd",
+      "expiryDate": "2026-11-10",
+      "filename": "MED-AUTH200017.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200018",
+      "name": "Insulin Glargine 100U",
+      "manufacturer": "Pokhara Medicines",
+      "expiryDate": "2027-02-28",
+      "filename": "MED-AUTH200018.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200019",
+      "name": "Warfarin 5mg",
+      "manufacturer": "Kathmandu Pharmaceuticals",
+      "expiryDate": "2027-07-15",
+      "filename": "MED-AUTH200019.png",
+      "status": "success"
+    },
+    {
+      "productId": "MED-AUTH200020",
+      "name": "Furosemide 40mg",
+      "manufacturer": "Himalayan Drugs",
+      "expiryDate": "2027-04-20",
+      "filename": "MED-AUTH200020.png",
+      "status": "success"
+    }
+  ]
+}

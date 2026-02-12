@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Shield, QrCode, Lock, BarChart3, Globe, CheckCircle2, ChevronRight, Blocks } from "lucide-react";
+import { Shield, QrCode, Lock, BarChart3, CheckCircle2, ChevronRight, Blocks, Award, Users, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const features = [
@@ -31,64 +31,144 @@ const stats = [
   { value: "100K+", label: "Lives at risk from counterfeit medicine yearly" },
 ];
 
+const trustSignals = [
+  { icon: Shield, text: "Backed by Blockchain" },
+  { icon: Award, text: "Integrated with DDA Nepal" },
+  { icon: TrendingUp, text: "Real-time Verification" },
+  { icon: Users, text: "Public Transparency" },
+];
+
 const Landing = () => {
   return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <section className="relative overflow-hidden pt-16">
-        <div className="absolute inset-0 gradient-dark opacity-95" />
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700" />
-        <div className="relative container mx-auto px-4 py-24 md:py-36">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/15 border border-primary/25 text-sm font-medium text-primary">
-              <Shield className="w-4 h-4" />
-              Blockchain-Powered Verification
+    <div className="min-h-screen bg-white">
+      {/* Hero Section - Clean White with Teal Accent */}
+      <section className="relative overflow-hidden pt-16 bg-white">
+        {/* Subtle teal glow background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-teal-50/50 via-white to-blue-50/30" />
+        
+        <div className="relative container mx-auto px-4 py-20 md:py-32">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Content */}
+            <div className="space-y-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-50 border border-teal-100 text-sm font-medium text-teal-700">
+                <Shield className="w-4 h-4" />
+                Blockchain-Powered Verification
+              </div>
+              
+              <div className="space-y-4">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight">
+                  Protecting Nepal's<br />
+                  <span className="text-teal-600">Medicine Supply Chain</span>
+                </h1>
+                <p className="text-xl text-slate-600 leading-relaxed max-w-xl">
+                  Eliminating counterfeit medicines with blockchain verification. 
+                  Ensuring every medicine you take is authentic, safe, and traceable.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Link to="/verify">
+                  <Button 
+                    size="lg" 
+                    className="bg-teal-600 hover:bg-teal-700 text-white shadow-lg shadow-teal-600/30 border-0 text-base px-8 h-14 rounded-xl font-semibold"
+                  >
+                    <QrCode className="w-5 h-5 mr-2" />
+                    Verify Medicine Now
+                  </Button>
+                </Link>
+                <Link to="/dashboard">
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="border-2 border-slate-200 text-slate-700 hover:bg-slate-50 h-14 px-8 rounded-xl font-semibold backdrop-blur-sm"
+                  >
+                    Partner Login
+                    <ChevronRight className="w-4 h-4 ml-1" />
+                  </Button>
+                </Link>
+              </div>
+
+              {/* Trust Signals */}
+              <div className="grid grid-cols-2 gap-4 pt-8">
+                {trustSignals.map((signal, i) => (
+                  <div key={i} className="flex items-center gap-2 text-sm text-slate-600">
+                    <div className="w-8 h-8 rounded-lg bg-teal-50 flex items-center justify-center">
+                      <signal.icon className="w-4 h-4 text-teal-600" />
+                    </div>
+                    <span className="font-medium">{signal.text}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-primary-foreground leading-tight">
-              Eliminating Counterfeit Medicines from{" "}
-              <span className="text-gradient">Nepal's Supply Chain</span>
-            </h1>
-            <p className="text-lg md:text-xl text-primary-foreground/70 max-w-2xl mx-auto">
-              Sahi Aaushadi uses blockchain-backed QR verification to ensure every medicine you take is authentic, safe, and traceable.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
-              <Link to="/verify">
-                <Button size="lg" className="gradient-hero text-primary-foreground border-0 glow-green text-base px-8 h-12">
-                  <QrCode className="w-5 h-5 mr-2" />
-                  Verify Now
-                </Button>
-              </Link>
-              <Link to="/dashboard">
-                <Button size="lg" variant="outline" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 h-12 px-8">
-                  Partner Login
-                  <ChevronRight className="w-4 h-4 ml-1" />
-                </Button>
-              </Link>
+
+            {/* Right Column - Illustration/Visual */}
+            <div className="relative">
+              <div className="relative bg-gradient-to-br from-teal-500 to-blue-600 rounded-3xl p-8 shadow-2xl shadow-teal-600/20">
+                <div className="bg-white rounded-2xl p-6 space-y-4">
+                  <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
+                    <div className="w-12 h-12 rounded-xl bg-teal-50 flex items-center justify-center">
+                      <QrCode className="w-6 h-6 text-teal-600" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-slate-900">Medicine Verification</p>
+                      <p className="text-xs text-slate-500">Scan QR Code</p>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-50">
+                      <CheckCircle2 className="w-5 h-5 text-teal-600" />
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-slate-900">Blockchain Verified</p>
+                        <p className="text-xs text-slate-500">Authentic Medicine</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-50">
+                      <CheckCircle2 className="w-5 h-5 text-teal-600" />
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-slate-900">DDA Registered</p>
+                        <p className="text-xs text-slate-500">Code 2080 Compliant</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-50">
+                      <CheckCircle2 className="w-5 h-5 text-teal-600" />
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-slate-900">Real-time Tracking</p>
+                        <p className="text-xs text-slate-500">Supply Chain Verified</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-teal-100 rounded-full blur-3xl opacity-50" />
+              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-blue-100 rounded-full blur-3xl opacity-50" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="py-16 bg-card">
+      {/* Stats Section - White Background */}
+      <section className="py-16 bg-white border-t border-slate-100">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {stats.map((s, i) => (
-              <div key={i} className="text-center space-y-1">
-                <div className="text-3xl md:text-4xl font-extrabold text-gradient">{s.value}</div>
-                <p className="text-muted-foreground text-sm">{s.label}</p>
+              <div key={i} className="text-center space-y-2">
+                <div className="text-4xl md:text-5xl font-bold text-teal-600">{s.value}</div>
+                <p className="text-slate-600 text-sm leading-relaxed">{s.label}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-20 bg-background">
+      {/* Features Section - Light Teal Background */}
+      <section className="py-20 bg-teal-50/50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">How It Works</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">
+          <div className="text-center mb-14 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">How It Works</h2>
+            <p className="text-slate-600 text-lg">
               Our multi-layer security framework ensures complete transparency from manufacturer to patient.
             </p>
           </div>
@@ -96,50 +176,66 @@ const Landing = () => {
             {features.map((f, i) => (
               <div
                 key={i}
-                className="group bg-card rounded-xl p-6 shadow-card border hover:border-primary/30 transition-all hover:-translate-y-1"
+                className="group bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-lg hover:border-teal-100 transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-xl gradient-hero flex items-center justify-center mb-4 group-hover:glow-green transition-shadow">
-                  <f.icon className="w-6 h-6 text-primary-foreground" />
+                <div className="w-14 h-14 rounded-xl bg-teal-50 flex items-center justify-center mb-4 group-hover:bg-teal-100 transition-colors">
+                  <f.icon className="w-7 h-7 text-teal-600" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">{f.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+                <h3 className="font-semibold text-slate-900 mb-2 text-lg">{f.title}</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Compliance */}
-      <section className="py-20 bg-card">
+      {/* Compliance Section - White Background */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <Globe className="w-10 h-10 text-secondary mx-auto" />
-            <h2 className="text-3xl font-bold text-foreground">DDA Code 2080 Compliant</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              Fully aligned with Nepal's Department of Drug Administration regulations for pharmaceutical tracking and verification.
-            </p>
-            <div className="flex flex-wrap justify-center gap-3 pt-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-teal-50 mb-4">
+                <Shield className="w-8 h-8 text-teal-600" />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">DDA Code 2080 Compliant</h2>
+              <p className="text-slate-600 text-lg max-w-2xl mx-auto">
+                Fully aligned with Nepal's Department of Drug Administration regulations for pharmaceutical tracking and verification.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {["AES-256 Encryption", "Immutable Ledger", "OAuth 2.0 Auth", "API Rate Limiting"].map((tag) => (
-                <span key={tag} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-accent text-accent-foreground text-sm font-medium">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  {tag}
-                </span>
+                <div key={tag} className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-50 border border-slate-100">
+                  <CheckCircle2 className="w-4 h-4 text-teal-600 flex-shrink-0" />
+                  <span className="text-sm font-medium text-slate-700">{tag}</span>
+                </div>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="gradient-dark py-10">
-        <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <Shield className="w-5 h-5 text-primary" />
-            <span className="font-bold text-primary-foreground">Sahi Aaushadi</span>
+      {/* Footer - Dark Navy */}
+      <footer className="bg-slate-900 py-12 border-t border-slate-800">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 rounded-xl bg-teal-600 flex items-center justify-center">
+                <Shield className="w-5 h-5 text-white" />
+              </div>
+              <span className="font-bold text-xl text-white">Sahi Aaushadi</span>
+            </div>
+            <p className="text-sm text-slate-400 text-center">
+              © 2026 Sahi Aaushadi. Securing Nepal's pharmaceutical supply chain.
+            </p>
+            <div className="flex items-center gap-2 text-xs text-slate-500">
+              <span>Powered by Blockchain</span>
+              <span>•</span>
+              <span>DDA Approved</span>
+              <span>•</span>
+              <span>Open Source</span>
+            </div>
           </div>
-          <p className="text-sm text-primary-foreground/50">
-            © 2026 Sahi Aaushadi. Securing Nepal's pharmaceutical supply chain.
-          </p>
         </div>
       </footer>
     </div>
