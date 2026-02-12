@@ -189,14 +189,24 @@ const Verify = () => {
   };
 
   return (
-    <div className="min-h-screen pt-16 bg-background">
-      <div className="container mx-auto px-4 py-12 max-w-lg">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Verify Your Medicine</h1>
-          <p className="text-muted-foreground text-sm">
-            Scan the QR code or enter the unique code to verify authenticity
-          </p>
-        </div>
+    <div className="min-h-screen pt-16 bg-white relative">
+      {/* Gradient Overlay */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          backgroundImage: 'linear-gradient(135deg, #163A2C 0%, #1B4433 35%, #0F2A21 70%, #0B2019 100%)'
+        }}
+      />
+      
+      {/* Content */}
+      <div className="relative z-10">
+        <div className="container mx-auto px-4 py-12 max-w-lg">
+          <div className="text-center mb-8">
+            <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">Verify Your Medicine</h1>
+            <p className="text-white/70 text-sm">
+              Scan the QR code or enter the unique code to verify authenticity
+            </p>
+          </div>
 
         {status === "idle" && (
           <div className="space-y-6 animate-fade-up">
@@ -440,6 +450,7 @@ const Verify = () => {
           onClose={() => setShowScanner(false)}
         />
       )}
+      </div>
     </div>
   );
 };
