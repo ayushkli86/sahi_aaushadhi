@@ -7,13 +7,17 @@ interface AuthLayoutProps {
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
-    <div 
-      className="min-h-screen flex items-center justify-center p-4"
-      style={{
-        background: 'linear-gradient(135deg, #163A2C 0%, #1B4433 35%, #0F2A21 70%, #0B2019 100%)'
-      }}
-    >
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-white relative flex items-center justify-center p-4">
+      {/* Gradient Overlay */}
+      <div 
+        className="absolute inset-0 bg-gradient-to-br"
+        style={{
+          backgroundImage: 'linear-gradient(135deg, #163A2C 0%, #1B4433 35%, #0F2A21 70%, #0B2019 100%)'
+        }}
+      />
+      
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-3 mb-2">
