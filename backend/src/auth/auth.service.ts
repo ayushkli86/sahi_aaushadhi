@@ -13,7 +13,7 @@ class AuthService {
    * Generate JWT token
    */
   private generateToken(payload: AuthTokenPayload): string {
-    return jwt.sign(payload, process.env.JWT_SECRET!, {
+    return (jwt.sign as any)(payload, process.env.JWT_SECRET!, {
       expiresIn: process.env.JWT_EXPIRES_IN || '7d'
     });
   }
@@ -139,7 +139,7 @@ class AuthService {
    */
   verifyToken(token: string): AuthTokenPayload {
     try {
-      return jwt.verify(token, process.env.JWT_SECRET!) as AuthTokenPayload;
+      return (jwt.verify as any)(token, process.env.JWT_SECRET!) as AuthTokenPayload;
     } catch (error) {
       throw new AppError('Invalid token', 401);
     }
