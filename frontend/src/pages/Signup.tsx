@@ -222,7 +222,7 @@ const Signup = () => {
           <p className="text-sm text-slate-600">
             Already have an account?{' '}
             <Link to="/login" className="text-teal-600 hover:text-teal-700 font-semibold">
-              Sign in
+              Log in
             </Link>
           </p>
         </div>

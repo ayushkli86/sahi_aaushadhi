@@ -58,7 +58,7 @@ const Login = () => {
       <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
         <div className="mb-6">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Welcome Back</h2>
-          <p className="text-slate-600 text-sm">Sign in to continue to Sahi Aaushadi</p>
+          <p className="text-slate-600 text-sm">Log in to continue to Sahi Aaushadi</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -123,10 +123,10 @@ const Login = () => {
             {isLoading ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Signing in...
+                Logging in...
               </>
             ) : (
-              'Sign In'
+              'Log In'
             )}
           </Button>
         </form>
